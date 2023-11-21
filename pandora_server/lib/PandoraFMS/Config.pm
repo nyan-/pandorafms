@@ -275,6 +275,7 @@ sub pandora_load_config {
 	$pa_config->{"rcmd_timeout"} = 10; # Introduced on 7.0.740
 	$pa_config->{"rcmd_timeout_bin"} = '/usr/bin/timeout'; # Introduced on 7.0.743
 	$pa_config->{"snmp_trapd"} = '/usr/sbin/snmptrapd'; # 3.0
+	$pa_config->{"snmptrapd_args"} = '-On -n';
 	$pa_config->{"tcp_checks"} = 1; # Introduced on 1.3.1
 	$pa_config->{"tcp_timeout"} = 20; # Introduced on 1.3.1
 	$pa_config->{"snmp_proc_deadresponse"} = 1; # Introduced on 1.3.1 10 Feb08
@@ -994,6 +995,9 @@ sub pandora_load_config {
 		}
 		elsif ($parametro =~ m/^snmp_trapd\s(.*)/i) {
 			$pa_config->{'snmp_trapd'}= clean_blank($1); 
+		}
+		elsif ($parametro =~ m/^snmptrapd_args\s(.*)/i) {
+			$pa_config->{'snmptrapd_args'}= clean_blank($1);
 		}
 		elsif ($parametro =~ m/^plugin_exec\s(.*)/i) {
 			$pa_config->{'plugin_exec'}= clean_blank($1); 
