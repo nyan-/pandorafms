@@ -75,7 +75,7 @@ set_global_vars () {
 		WWWROOT=/usr/local/www
 
 		local apache
-		for apache in apache24 apache22
+		for apache in . apache24 apache22
 		do
 			[ ! -d $WWWROOT/$apache ] && continue
 			WWWROOT=$WWWROOT/$apache/data
