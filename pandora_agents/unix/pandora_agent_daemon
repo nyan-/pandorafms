@@ -20,12 +20,22 @@
 # Description: Startup script daemon for Pandora FMS agent (linux)
 ### END INIT INFO
 
+if [ "`uname -s`" = "SunOS" ]
+then
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+PANDORA_PATH=/usr/local/etc/pandora
+DAEMON=/usr/local/bin/pandora_agent
+DAEMON_TENTACLE=/usr/local/bin/tentacle_server
+LOGFILE=/var/share/log/pandora/pandora_agent.log
+PANDORA_USER=root
+else
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
 PANDORA_PATH=/etc/pandora
 DAEMON=/usr/bin/pandora_agent
 DAEMON_TENTACLE=/usr/bin/tentacle_server
 LOGFILE=/var/log/pandora/pandora_agent.log
 PANDORA_USER=root
+fi
 
 if [ -x /lib/lsb/init-functions ]; then
 . /lib/lsb/init-functions
@@ -44,7 +54,7 @@ pidof_pandora () {
 		ZONENAME_CMD="/bin/zonename"
 		# Has to be run from sources. The binary version inserts blanks between
 		# $DAEMON  and $PANDORA_PATH.
-		TRUNCATED_DAEMON=`echo "$DAEMON $PANDORA_PATH" | cut -c1-20`
+		TRUNCATED_DAEMON=`echo "$DAEMON $PANDORA_PATH" | cut -c1-50`
 		if [ -x $ZONENAME_CMD ]
 		then
 			ZONE=`$ZONENAME_CMD`

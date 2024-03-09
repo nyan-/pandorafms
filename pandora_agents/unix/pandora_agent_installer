@@ -17,7 +17,7 @@ FORCE=0
 LOG_TIMESTAMP=`date +"%Y/%m/%d %H:%M:%S"`
 
 PREFIX=/usr
-if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "NetBSD" ] || [ "$OS_NAME" = "Darwin" ]
+if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "NetBSD" ] || [ "$OS_NAME" = "Darwin" ] || [ "$OS_NAME" = "SunOS" ]
 then
 	PREFIX=/usr/local
 fi
@@ -59,6 +59,13 @@ NetBSD)
 	PANDORA_STARTUP=/etc/rc.d/pandora_agent
 	DAEMON_SCRIPT=$OS_NAME/pandora_agent
 	PANDORA_PERL_PATH=/usr/pkg/bin/perl
+	;;
+SunOS)
+	PANDORA_TEMP=/var/share/spool/pandora
+	PANDORA_CFG=$PREFIX/etc/pandora
+	PANDORA_LOG_DIR=/var/share/log/pandora
+	PANDORA_STARTUP=$PREFIX/etc/rc.d/pandora_agent_daemon
+	PANDORA_PERL_PATH=/usr/bin/perl
 	;;
 esac
 
@@ -307,7 +314,7 @@ install () {
 		# Backup the configuration file
 		cp -f "$AGENT_CFG" "${AGENT_CFG}.bak"
 
-		if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "NetBSD" ] || [ "$OS_NAME" = "Darwin" ]
+		if [ "$OS_NAME" = "FreeBSD" ] || [ "$OS_NAME" = "NetBSD" ] || [ "$OS_NAME" = "Darwin" ] || [ "$OS_NAME" = "SunOS" ]
 		then
 			sed -e "\|^PATH=|s|=|=$PANDORA_BASE$PREFIX/bin:|" \
 				-e "s|/usr/local/etc/pandora|$PANDORA_BASE$PANDORA_CFG|g" \
